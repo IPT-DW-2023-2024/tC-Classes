@@ -1,5 +1,7 @@
 ﻿namespace Classes.Models {
-   public class Professors {
+
+   public class Professors : AppUsers {
+      // relationship of type Class-SubClasse
 
       public Professors() {
          ListOfClasses = new HashSet<Classes>();

@@ -3,7 +3,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Classes.Models {
-   public class Students {
+
+   public class Students : AppUsers {
 
       public Students() {
          ListOfEnrollments = new HashSet<Enrollments>();

@@ -18,7 +18,7 @@ namespace Classes.Models {
       public DateTime EnrollmentDate { get; set; }
 
       /* **************************************
-      * Defining Relationships between Classes
+      * Defining Relationships between CourseUnits
       * ************************************** */
 
 

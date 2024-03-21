@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Classes.Models {
-   public class Classes {
+   public class CourseUnits {
       // we are going to use Entity Framework
       // https://learn.microsoft.com/en-us/ef/
 
 
-      public Classes() {
+      public CourseUnits() {
          ListOfProfessors = new HashSet<Professors>();
          ListOfEnrollments = new HashSet<Enrollments>();
       }
@@ -22,7 +22,7 @@ namespace Classes.Models {
       public int Semester { get; set; }
 
       /* **************************************
-       * Defining Relationships between Classes
+       * Defining Relationships between CourseUnits
        * ************************************** */
 
 

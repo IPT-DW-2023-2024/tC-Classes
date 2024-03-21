@@ -4,7 +4,7 @@ namespace Classes.Models {
    public class Courses {
 
       public Courses() {
-         ListOfClasses = new HashSet<Classes>();
+         ListOfClasses = new HashSet<CourseUnits>();
          ListOfStudents=new HashSet<Students>();
       }
 
@@ -17,11 +17,11 @@ namespace Classes.Models {
 
 
       /* **************************************
-       * Defining Relationships between Classes
+       * Defining Relationships between CourseUnits
        * ************************************** */
 
       // define the 1-N relationship
-      public ICollection<Classes> ListOfClasses { get; set; }
+      public ICollection<CourseUnits> ListOfClasses { get; set; }
 
       public ICollection<Students> ListOfStudents { get; set; }
 

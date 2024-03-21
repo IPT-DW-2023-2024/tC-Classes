@@ -4,10 +4,10 @@
       // relationship of type Class-SubClasse
 
       public Professors() {
-         ListOfClasses = new HashSet<Classes>();
+         ListOfClasses = new HashSet<CourseUnits>();
       }
 
-      public ICollection<Classes> ListOfClasses { get; set; }
+      public ICollection<CourseUnits> ListOfClasses { get; set; }
 
    }
 }

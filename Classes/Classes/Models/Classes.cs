@@ -6,7 +6,10 @@ namespace Classes.Models {
       // https://learn.microsoft.com/en-us/ef/
 
 
-
+      public Classes() {
+         ListOfProfessors = new HashSet<Professors>();
+         ListOfEnrollments = new HashSet<Enrollments>();
+      }
 
       public int Id { get; set; }
 
@@ -28,5 +31,11 @@ namespace Classes.Models {
       [ForeignKey(nameof(Course))]
       public int CourseFK { get; set; }  // FK to a Course table
       public Courses Course { get; set; }  // FK to a Course element
-   }
+
+
+      // define the N-M relationship
+      public ICollection<Professors> ListOfProfessors { get; set; }
+
+        public ICollection<Enrollments> ListOfEnrollments { get; set; }
+    }
 }

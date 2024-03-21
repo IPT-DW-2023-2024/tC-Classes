@@ -1,7 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Classes.Models {
    public class Students {
+
+      public Students() {
+         ListOfEnrollments = new HashSet<Enrollments>();
+      }
+
 
       public int StudentNumber { get; set; }
 
@@ -13,10 +20,16 @@ namespace Classes.Models {
       * Defining Relationships between Classes
       * ************************************** */
 
+
+      // 1-N
       [ForeignKey(nameof(Course))]
       public int CourseFK { get; set; }
 
       public Courses Course { get; set; }
+
+
+      // M-N
+      public ICollection<Enrollments> ListOfEnrollments { get; set; }
 
    }
 }

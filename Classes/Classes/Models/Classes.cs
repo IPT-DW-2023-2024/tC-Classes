@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Classes.Models {
    public class Classes {
@@ -11,6 +12,7 @@ namespace Classes.Models {
          ListOfEnrollments = new HashSet<Enrollments>();
       }
 
+      [Key] // PK
       public int Id { get; set; }
 
       public string Name { get; set; }

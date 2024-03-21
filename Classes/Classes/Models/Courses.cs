@@ -1,4 +1,6 @@
-﻿namespace Classes.Models {
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Classes.Models {
    public class Courses {
 
       public Courses() {
@@ -6,6 +8,7 @@
          ListOfStudents=new HashSet<Students>();
       }
 
+      [Key] // PK
       public int Id { get; set; }
 
       public string Name { get; set; }

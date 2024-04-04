@@ -87,13 +87,13 @@ namespace Classes.Data.Migrations
                         column: x => x.ListOfProfessorsId,
                         principalTable: "AppUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_CourseUnitsProfessors_CourseUnits_ListOfClassesId",
                         column: x => x.ListOfClassesId,
                         principalTable: "CourseUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,13 +112,13 @@ namespace Classes.Data.Migrations
                         column: x => x.StudentFK,
                         principalTable: "AppUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Enrollments_CourseUnits_ClassFK",
                         column: x => x.ClassFK,
                         principalTable: "CourseUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

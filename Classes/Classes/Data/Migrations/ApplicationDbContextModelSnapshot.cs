@@ -44,7 +44,7 @@ namespace Classes.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUsers");
+                    b.ToTable("AppUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("AppUsers");
 
@@ -76,7 +76,7 @@ namespace Classes.Data.Migrations
 
                     b.HasIndex("CourseFK");
 
-                    b.ToTable("CourseUnits");
+                    b.ToTable("CourseUnits", (string)null);
                 });
 
             modelBuilder.Entity("Classes.Models.Courses", b =>
@@ -97,7 +97,7 @@ namespace Classes.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("Classes.Models.Enrollments", b =>
@@ -115,7 +115,7 @@ namespace Classes.Data.Migrations
 
                     b.HasIndex("ClassFK");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("CourseUnitsProfessors", b =>
@@ -130,7 +130,7 @@ namespace Classes.Data.Migrations
 
                     b.HasIndex("ListOfProfessorsId");
 
-                    b.ToTable("CourseUnitsProfessors");
+                    b.ToTable("CourseUnitsProfessors", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

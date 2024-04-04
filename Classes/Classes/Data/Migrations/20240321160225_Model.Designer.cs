@@ -4,6 +4,7 @@ using Classes.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Classes.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240321160225_Model")]
+    partial class Model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace Classes.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUsers", (string)null);
+                    b.ToTable("AppUsers");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("AppUsers");
 
@@ -76,7 +79,7 @@ namespace Classes.Data.Migrations
 
                     b.HasIndex("CourseFK");
 
-                    b.ToTable("CourseUnits", (string)null);
+                    b.ToTable("CourseUnits");
                 });
 
             modelBuilder.Entity("Classes.Models.Courses", b =>
@@ -97,7 +100,7 @@ namespace Classes.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("Classes.Models.Enrollments", b =>
@@ -115,7 +118,7 @@ namespace Classes.Data.Migrations
 
                     b.HasIndex("ClassFK");
 
-                    b.ToTable("Enrollments", (string)null);
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("CourseUnitsProfessors", b =>
@@ -130,7 +133,7 @@ namespace Classes.Data.Migrations
 
                     b.HasIndex("ListOfProfessorsId");
 
-                    b.ToTable("CourseUnitsProfessors", (string)null);
+                    b.ToTable("CourseUnitsProfessors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

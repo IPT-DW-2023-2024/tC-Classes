@@ -11,9 +11,14 @@ namespace Classes.Models {
       [Key] // PK
       public int Id { get; set; }
 
+      [StringLength(100)]
+      [Required(ErrorMessage ="The {0} must be written")]
+      [Display(Name ="Name")]
       public string Name { get; set; }
 
-      public string Logotype { get; set; }
+      [StringLength(50)]
+      public string? Logotype { get; set; } 
+      // the ? mark means that Logotype can has NULL values
 
 
       /* **************************************

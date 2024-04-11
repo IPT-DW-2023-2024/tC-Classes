@@ -15,8 +15,11 @@
         @*
             the 'form' tag is the 'transporter' from the browser 
             to Server.
-        *@
-        <form asp-action="Create">
+            ONLY wtih enctype="multipart/form-data" is possible to send files
+      *@
+        <form asp-action="Create" 
+              method="post" 
+              enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
          
@@ -29,6 +32,7 @@
             <div class="form-group">
                 <label asp-for="Logotype" class="control-label"></label>
                 <input type="file" 
+                       name="LogoImage"
                        accept=".png,.jpg,.jpeg"
                        class="form-control" />
                 <span asp-validation-for="Logotype" class="text-danger"></span>

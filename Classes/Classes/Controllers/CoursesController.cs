@@ -10,10 +10,23 @@ using Classes.Models;
 
 namespace Classes.Controllers {
    public class CoursesController : Controller {
+
+      /// <summary>
+      /// 'pointer' to our database
+      /// </summary>
       private readonly ApplicationDbContext _context;
 
-      public CoursesController(ApplicationDbContext context) {
+      /// <summary>
+      /// data from the environment of our server
+      /// </summary>
+      private readonly IWebHostEnvironment _iWebHostEnvironment;
+
+      public CoursesController(
+         ApplicationDbContext context,
+         IWebHostEnvironment iWebHostEnvironment
+         ) {
          _context = context;
+         _iWebHostEnvironment = iWebHostEnvironment;
       }
 
       // GET: Courses
@@ -47,20 +60,86 @@ namespace Classes.Controllers {
       // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Create([Bind("Name")] Courses course , IFormFile LogoImage) {
+      public async Task<IActionResult> Create([Bind("Name")] Courses course, IFormFile LogoImage) {
          // the [Bind] annotation will protect your code for attacks
 
-         // write the algorithm 
-         // write the code
-
+         /* Algorithm
+          * we have a file?
+          * - no
+          *   create error msg
+          *   return control to View
+          * - yes (else)
+          *   but, the file is an image?
+          *   - no
+          *     assign a default logo image to course
+          *   - yes (else)
+          *     = define the image name
+          *     = add filename to DB
+          *     = save the logo image on disc drive          * 
+          */
 
          if (ModelState.IsValid) {
             // if everything thar comes from VIEW is ok
+
+            // auxiliary vars
+            string logoName = "";
+            bool hasImage = false;
+
+            // we have a file?
+            if (LogoImage == null) {
+               // create error msg
+               ModelState.AddModelError("",
+                  "You must supply a logo image!"
+                  );
+               // return control to View
+               return View(course);
+            }
+            else {
+               // we have a file, but is an image?
+               if (!(LogoImage.ContentType == "image/png" ||
+                     LogoImage.ContentType == "image/jpeg")) {
+                  // it is not an image
+                  // assign a default logo image to course
+                  course.Logotype = "noLogoCourse.png";
+               }
+               else {
+                  // it's an image
+                  hasImage = true;
+
+                  // define logo's name
+                  Guid g = Guid.NewGuid();
+                  logoName = g.ToString().ToLowerInvariant();
+                  string extension = Path.GetExtension(LogoImage.FileName)
+                                         .ToLowerInvariant();
+                  logoName += extension;
+
+                  // add logo name to DB
+                  course.Logotype = logoName;
+               }
+            }
 
             // add the Views' data to BD
             _context.Add(course);
             // Commit
             await _context.SaveChangesAsync();
+
+            // if we have an image, let´s save it
+            if (hasImage) {
+               // define the place to store the logo's image
+               string imageLocation = _iWebHostEnvironment.WebRootPath;
+               imageLocation = Path.Combine(imageLocation, "Images");
+               // the folder 'Images' exists?
+               if (!Directory.Exists(imageLocation)) {
+                  Directory.CreateDirectory(imageLocation);
+               }
+               // add the image name to folder's location
+               Path.Combine(imageLocation, logoName);
+               // save file to server's disc drive
+               using var stream = new FileStream(imageLocation, FileMode.CreateNew);
+               await LogoImage.CopyToAsync(stream);
+            }
+
+
             // redirect user to Index
             return RedirectToAction(nameof(Index));
          }

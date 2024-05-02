@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Classes.Models.Courses>
 
 @{
-    ViewData["Title"] = "Index";
+   ViewData["Title"] = "Courses";
 }
 
-<h1>Index</h1>
+<h1>Courses</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -28,7 +28,21 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Logotype)
+                @*
+                    @Html.DisplayFor(modelItem => item.Logotype)
+                *@
+                <img src="~/Images/@Html.DisplayFor(modelItem => item.Logotype)"
+                     alt="logo of course @Html.DisplayFor(modelItem => item.Name)"
+                     title="@Html.DisplayFor(modelItem => item.Name)"
+                     width="100px"
+                     />
+                     <br />
+                     another way to access images. Using the <i>foreach</i> variable...
+                     <br />
+               <img src="~/Images/@item.Logotype"
+                    alt="logo of course @item.Name"
+                    title="@item.Name"
+                    width="100px" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

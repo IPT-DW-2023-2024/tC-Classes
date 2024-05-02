@@ -29,10 +29,27 @@ namespace Classes.Controllers {
          _iWebHostEnvironment = iWebHostEnvironment;
       }
 
+
+
+
       // GET: Courses
       public async Task<IActionResult> Index() {
-         return View(await _context.Courses.ToListAsync());
+
+         // look for courses at our database
+         // SELECT *
+         // FROM courses
+         // ORDER BY name
+         var listOfCourses = await _context.Courses
+                                           .OrderBy(c => c.Name)
+                                           .ToListAsync();
+         // This command is written in LINQ
+
+         return View(listOfCourses);
       }
+
+
+
+
 
       // GET: Courses/Details/5
       public async Task<IActionResult> Details(int? id) {
@@ -133,7 +150,7 @@ namespace Classes.Controllers {
                   Directory.CreateDirectory(imageLocation);
                }
                // add the image name to folder's location
-               Path.Combine(imageLocation, logoName);
+               imageLocation = Path.Combine(imageLocation, logoName);
                // save file to server's disc drive
                using var stream = new FileStream(imageLocation, FileMode.CreateNew);
                await LogoImage.CopyToAsync(stream);

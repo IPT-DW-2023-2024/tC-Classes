@@ -1,0 +1,57 @@
+﻿@model Classes.Models.Courses
+
+@{
+    ViewData["Title"] = "Add new Course";
+}
+
+<h1>Add a new course</h1>
+
+<hr />
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        @*
+            the 'form' tag is the 'transporter' from the browser 
+            to Server.
+            ONLY wtih enctype="multipart/form-data" is possible to send files
+      *@
+        <form asp-action="Create" 
+              method="post" 
+              enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Logotype" class="control-label"></label>
+                <input type="file" 
+                       name="LogoImage"
+                       accept=".png,.jpg,.jpeg"
+                       class="form-control" />
+                <span asp-validation-for="Logotype" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Add the new course" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <br />
+    <a asp-action="Index">Back to List</a>
+    <br />
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

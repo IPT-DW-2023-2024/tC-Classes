@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Classes.Data {
 
-
+   /// <summary>
+   /// 'database' of our application
+   /// </summary>
    public class ApplicationDbContext : IdentityDbContext {
     
       public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

@@ -18,10 +18,11 @@ namespace Classes.Models {
       /// auxiliary attribute to help us to write Fee values
       /// </summary>
       [NotMapped] // the EF do not add this attribute to database
-      [Display(Name ="Fee")]
+      [Display(Name = "Fee")]
       [StringLength(9)]
-      [RegularExpression("[0-9]{1,6}([,.][0-9]{1,2})?", 
-         ErrorMessage ="Write a number. You can use until 2 decimal digits.")]
+      [Required(ErrorMessage = "The {0} is mandatory")]
+      [RegularExpression("[0-9]{1,6}([,.][0-9]{1,2})?",
+         ErrorMessage = "Write a number. You can use until 2 decimal digits.")]
       public string FeeAux { get; set; }
 
       /// <summary>

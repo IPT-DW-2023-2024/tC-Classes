@@ -23,7 +23,7 @@ namespace Classes.Models {
       /// user's cell phone
       /// </summary>
       [StringLength(17)]
-      [RegularExpression("(+|00)?[0-9]{7,15}",
+      [RegularExpression("([+]|00)?[0-9]{7,15}",
                          ErrorMessage = "Please, write a valid cell phone number")]
       public string CellPhone { get; set; }
 

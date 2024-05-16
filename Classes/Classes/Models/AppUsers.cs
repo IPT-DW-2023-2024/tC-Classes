@@ -27,5 +27,13 @@ namespace Classes.Models {
                          ErrorMessage = "Please, write a valid cell phone number")]
       public string CellPhone { get; set; }
 
+
+      /// <summary>
+      /// FK to connect AspNetUser table with the AppUsers table
+      /// </summary>
+      [StringLength(40)]
+      public string UserID { get; set; }
+
+
    }
 }

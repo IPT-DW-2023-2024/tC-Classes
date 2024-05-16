@@ -160,6 +160,10 @@ namespace Classes.Areas.Identity.Pages.Account {
                // **********************************************
                // we need to add Professors' data to database
                try {
+
+                  // connect AspNetUsers table with AppUsers table
+                  Input.Professor.UserID = user.Id;
+
                   _context.Add(Input.Professor);
                   _context.SaveChanges();
                }

@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Classes.Data;
 using Classes.Models;
 
 using Microsoft.AspNetCore.Authentication;
@@ -31,18 +32,25 @@ namespace Classes.Areas.Identity.Pages.Account {
       private readonly ILogger<RegisterModel> _logger;
       private readonly IEmailSender _emailSender;
 
+      /// <summary>
+      /// 'pointer' to our database
+      /// </summary>
+      private readonly ApplicationDbContext _context;
+
       public RegisterModel(
           UserManager<IdentityUser> userManager,
           IUserStore<IdentityUser> userStore,
           SignInManager<IdentityUser> signInManager,
           ILogger<RegisterModel> logger,
-          IEmailSender emailSender) {
+          IEmailSender emailSender,
+          ApplicationDbContext context) {
          _userManager = userManager;
          _userStore = userStore;
          _emailStore = GetEmailStore();
          _signInManager = signInManager;
          _logger = logger;
          _emailSender = emailSender;
+         _context = context;
       }
 
 
@@ -109,23 +117,59 @@ namespace Classes.Areas.Identity.Pages.Account {
       }
 
 
-      public async Task OnGetAsync(string returnUrl = null) {
+
+
+      /// <summary>
+      /// shows the interface when you use HTTP GET verb
+      /// </summary>
+      /// <param name="returnUrl"></param>
+      /// <returns></returns>
+      public Task OnGet(string returnUrl = null) {
          ReturnUrl = returnUrl;
-         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+         return Task.CompletedTask;
       }
 
+
+
+      /// <summary>
+      /// when you use HTTP POST, this method is used
+      /// </summary>
+      /// <param name="returnUrl"></param>
+      /// <returns></returns>
       public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+
          returnUrl ??= Url.Content("~/");
-         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+         // list of external login providers,
+         // that our app can, eventually, use
+         // ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
          if (ModelState.IsValid) {
+
             var user = CreateUser();
 
             await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+            // creating the user
             var result = await _userManager.CreateAsync(user, Input.Password);
 
             if (result.Succeeded) {
                _logger.LogInformation("User created a new account with password.");
+
+               // **********************************************
+               // we need to add Professors' data to database
+               try {
+                  _context.Add(Input.Professor);
+                  _context.SaveChanges();
+               }
+               catch (Exception) {
+                  // YOU MUST SPECIFY WHAT APPENS WHEN AN ERROR OCOURS
+                  throw;
+               }
+
+
+               // **********************************************
 
                var userId = await _userManager.GetUserIdAsync(user);
                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -138,6 +182,9 @@ namespace Classes.Areas.Identity.Pages.Account {
 
                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+
+
 
                if (_userManager.Options.SignIn.RequireConfirmedAccount) {
                   return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
